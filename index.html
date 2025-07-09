@@ -9,136 +9,46 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Calm Harmony (Stone, Indigo) -->
-    <!-- Application Structure Plan: A 'learning journey' SPA. Starts with a hero section, followed by thematic modules: 1. 'O que é?' (Core Concepts) with toggleable cards. 2. 'Velocidade vs. Compreensão' featuring an interactive Chart.js bar chart to visualize key data. 3. 'Desafios & Soluções' using an accordion UI for problem/solution discovery. 4. 'Como Praticar' with a tabbed interface for step-by-step techniques. 5. 'Ferramentas & Recursos' with a clean grid of resource cards. This structure transforms the report into a guided, interactive experience, prioritizing user flow and engagement over the original linear format. It encourages exploration and makes complex information digestible. -->
-    <!-- Visualization & Content Choices: Report Info: Tabela 1 (WPM vs Comprehension) -> Goal: Compare -> Viz: Interactive Bar Chart (Chart.js) -> Interaction: Hover tooltips show precise data -> Justification: A chart is vastly more effective than a table for comparing performance metrics across reader types. Report Info: Lists of challenges and techniques -> Goal: Organize/Explain -> Presentation: Accordion/Tab UI (HTML/Tailwind/JS) -> Interaction: Click to expand/reveal content -> Justification: Prevents information overload, allowing users to focus on one concept at a time in a clean, organized manner. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        /* Default light mode styles */
-        body,
-        .bg-stone-50 {
-            background-color: #f9fafb; /* Tailwind stone-50 */
-            color: #374151; /* Tailwind stone-800 */
+        /* Estilos para o modo escuro - estes sobrescreverão os do Tailwind quando o body tiver a classe 'dark' */
+        body.dark {
+            background-color: #1a202c; /* gray-900 */
+            color: #e2e8f0; /* gray-200 */
         }
-        .bg-stone-100 {
-            background-color: #f3f4f6; /* Tailwind stone-100 */
+        body.dark header {
+            background-color: rgba(45, 55, 72, 0.8); /* gray-800/80 */
         }
-        .bg-stone-100\/80 {
-            background-color: rgba(243, 244, 246, 0.8);
+        body.dark section.bg-stone-100 { /* Specific sections with bg-stone-100 in light mode */
+            background-color: #2d3748; /* gray-800 */
         }
-        .bg-white {
-            background-color: #ffffff;
-            border-color: #e5e7eb; /* Tailwind stone-200 */
+        body.dark .bg-white { /* Cards, chart container, tab content */
+            background-color: #2d3748; /* gray-700 */
+            border-color: #4a5568; /* gray-600 */
         }
-        .text-stone-800 {
-            color: #374151;
-        }
-        .text-stone-900 {
-            color: #111827;
-        }
-        .text-stone-600 {
-            color: #4b5563;
-        }
-        .text-stone-300 {
-            color: #d1d5db;
-        }
-        .text-stone-400 {
-            color: #9ca3af;
-        }
-        .text-indigo-600 {
-            color: #4f46e5;
-        }
-        .text-indigo-700 {
-            color: #4338ca;
-        }
-        .border-stone-200 {
-            border-color: #e5e7eb;
-        }
-        .border-stone-300 {
-            border-color: #d1d5db;
-        }
-        .hover\:bg-stone-50:hover {
-            background-color: #f9fafb;
-        }
-        .tab-button:not(.active) {
-            color: #4b5563;
-        }
-        .tab-button.active {
-            background-color: #4f46e5;
-            color: white;
-        }
-        .shadow-sm {
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-        .shadow-lg {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        /* Ensure text colors are light in dark mode */
+        body.dark .text-stone-800 { color: #e2e8f0; }
+        body.dark .text-stone-900 { color: #f7fafc; }
+        body.dark .text-stone-600 { color: #a0aec0; }
+        body.dark .text-stone-300 { color: #718096; }
+        body.dark .text-stone-400 { color: #4a5568; }
+        body.dark .text-indigo-600 { color: #667eea; }
+        body.dark .text-indigo-700 { color: #7f9cf5; }
+        body.dark .border-stone-200 { border-color: #4a5568; }
+        body.dark .border-stone-300 { border-color: #4a5568; }
+        body.dark .hover\:bg-stone-50:hover { background-color: #4a5568; }
+        body.dark .tab-button:not(.active) { color: #a0aec0; }
+        body.dark .tab-button.active { background-color: #667eea; color: white; }
+        body.dark .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25); }
+        body.dark .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -2px rgba(0, 0, 0, 0.2); }
+        body.dark footer {
+            background-color: #111827; /* gray-900 */
+            color: #9ca3af; /* gray-400 */
         }
 
-        /* Dark mode styles */
-        body.dark {
-            background-color: #1a202c; /* Tailwind gray-900 */
-            color: #e2e8f0; /* Tailwind gray-200 */
-        }
-        body.dark .bg-stone-50 {
-            background-color: #1a202c;
-        }
-        body.dark .bg-stone-100 {
-            background-color: #2d3748; /* Tailwind gray-800 */
-        }
-        body.dark .bg-stone-100\/80 {
-            background-color: rgba(45, 55, 72, 0.8);
-        }
-        body.dark .bg-white {
-            background-color: #2d3748;
-            border-color: #4a5568;
-        }
-        body.dark .text-stone-800 {
-            color: #e2e8f0;
-        }
-        body.dark .text-stone-900 {
-            color: #f7fafc;
-        }
-        body.dark .text-stone-600 {
-            color: #a0aec0;
-        }
-        body.dark .text-stone-300 {
-            color: #718096;
-        }
-        body.dark .text-stone-400 {
-            color: #4a5568;
-        }
-        body.dark .text-indigo-600 {
-            color: #667eea; /* A slightly lighter indigo for dark mode contrast */
-        }
-        body.dark .text-indigo-700 {
-            color: #7f9cf5;
-        }
-        body.dark .border-stone-200 {
-            border-color: #4a5568;
-        }
-        body.dark .border-stone-300 {
-            border-color: #4a5568;
-        }
-        body.dark .hover\:bg-stone-50:hover {
-            background-color: #4a5568;
-        }
-        body.dark .tab-button:not(.active) {
-            color: #a0aec0;
-        }
-        body.dark .tab-button.active {
-            background-color: #667eea;
-            color: white;
-        }
-        body.dark .shadow-sm {
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-        }
-        body.dark .shadow-lg {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-        }
 
         .chart-container {
             position: relative;
@@ -182,7 +92,7 @@
                     <a href="#pratica" class="nav-link hover:text-indigo-600 transition-colors">Prática</a>
                     <a href="#recursos" class="nav-link hover:text-indigo-600 transition-colors">Recursos</a>
                 </div>
-                <button id="theme-toggle" class="p-2 rounded-full bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-200 hover:bg-stone-300 dark:hover:bg-stone-600 transition-colors">
+                <button id="theme-toggle" class="p-2 rounded-full bg-stone-200 text-stone-700 hover:bg-stone-300 transition-colors">
                     <svg id="sun-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12H2m15.325-4.575l.707-.707M3.968 3.968l.707.707m0 15.325l-.707.707M19.325 3.968l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
                     </svg>
@@ -195,20 +105,20 @@
                 </button>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-stone-100 dark:bg-stone-800">
-            <a href="#conceitos" class="block text-center py-2 px-4 text-stone-600 dark:text-stone-300 hover:bg-indigo-50 dark:hover:bg-stone-700">Conceitos</a>
-            <a href="#desempenho" class="block text-center py-2 px-4 text-stone-600 dark:text-stone-300 hover:bg-indigo-50 dark:hover:bg-stone-700">Desempenho</a>
-            <a href="#desafios" class="block text-center py-2 px-4 text-stone-600 dark:text-stone-300 hover:bg-indigo-50 dark:hover:bg-stone-700">Desafios</a>
-            <a href="#pratica" class="block text-center py-2 px-4 text-stone-600 dark:text-stone-300 hover:bg-indigo-50 dark:hover:bg-stone-700">Prática</a>
-            <a href="#recursos" class="block text-center py-2 px-4 text-stone-600 dark:text-stone-300 hover:bg-indigo-50 dark:hover:bg-stone-700">Recursos</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-stone-100">
+            <a href="#conceitos" class="block text-center py-2 px-4 text-stone-600 hover:bg-indigo-50">Conceitos</a>
+            <a href="#desempenho" class="block text-center py-2 px-4 text-stone-600 hover:bg-indigo-50">Desempenho</a>
+            <a href="#desafios" class="block text-center py-2 px-4 text-stone-600 hover:bg-indigo-50">Desafios</a>
+            <a href="#pratica" class="block text-center py-2 px-4 text-stone-600 hover:bg-indigo-50">Prática</a>
+            <a href="#recursos" class="block text-center py-2 px-4 text-stone-600 hover:bg-indigo-50">Recursos</a>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="bg-stone-100 py-16 md:py-24 text-center dark:bg-stone-800">
+        <section id="hero" class="bg-stone-100 py-16 md:py-24 text-center">
             <div class="container mx-auto px-4">
-                <h1 class="text-4xl md:text-6xl font-bold text-stone-900 dark:text-stone-50 mb-4">Acelere sua Leitura, Não sua Compreensão.</h1>
-                <p class="text-lg md:text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto mb-8">Descubra como a leitura dinâmica por grafemas pode transformar sua capacidade de absorver informação de forma eficiente e consciente.</p>
+                <h1 class="text-4xl md:text-6xl font-bold text-stone-900 mb-4">Acelere sua Leitura, Não sua Compreensão.</h1>
+                <p class="text-lg md:text-xl text-stone-600 max-w-3xl mx-auto mb-8">Descubra como a leitura dinâmica por grafemas pode transformar sua capacidade de absorver informação de forma eficiente e consciente.</p>
                 <a href="#conceitos" class="bg-indigo-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-indigo-700 transition-transform transform hover:scale-105">Comece a Jornada</a>
             </div>
         </section>
@@ -216,29 +126,29 @@
         <section id="conceitos" class="py-16 md:py-20">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-50">O que é Leitura Dinâmica?</h2>
-                    <p class="mt-4 text-lg text-stone-600 dark:text-stone-300 max-w-2xl mx-auto">Esta seção introduz os pilares da leitura eficiente. Entenda o que é a leitura dinâmica e como o foco nos grafemas (padrões visuais das palavras) permite que leitores fluentes processem informações com mais velocidade e eficácia.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900">O que é Leitura Dinâmica?</h2>
+                    <p class="mt-4 text-lg text-stone-600 max-w-2xl mx-auto">Esta seção introduz os pilares da leitura eficiente. Entenda o que é a leitura dinâmica e como o foco nos grafemas (padrões visuais das palavras) permite que leitores fluentes processem informações com mais velocidade e eficácia.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200 dark:bg-stone-700 dark:border-stone-600">
-                        <h3 class="text-2xl font-semibold mb-3 text-indigo-700 dark:text-indigo-400">Leitura Dinâmica</h3>
-                        <p class="text-stone-600 dark:text-stone-300">É um conjunto de técnicas para aumentar a velocidade de leitura sem sacrificar a compreensão. O foco é otimizar os movimentos oculares, reduzir a "voz mental" (subvocalização) e captar blocos de palavras, em vez de ler palavra por palavra.</p>
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200">
+                        <h3 class="text-2xl font-semibold mb-3 text-indigo-700">Leitura Dinâmica</h3>
+                        <p class="text-stone-600">É um conjunto de técnicas para aumentar a velocidade de leitura sem sacrificar a compreensão. O foco é otimizar os movimentos oculares, reduzir a "voz mental" (subvocalização) e captar blocos de palavras, em vez de ler palavra por palavra.</p>
                     </div>
-                    <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200 dark:bg-stone-700 dark:border-stone-600">
-                        <h3 class="text-2xl font-semibold mb-3 text-indigo-700 dark:text-indigo-400">Leitura por Grafemas</h3>
-                        <p class="text-stone-600 dark:text-stone-300">Para leitores experientes, significa reconhecer palavras e grupos de palavras como "desenhos" ou unidades visuais completas. O cérebro aprende a identificar esses padrões ortográficos instantaneamente, acelerando o acesso ao significado sem precisar decodificar letra por letra.</p>
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200">
+                        <h3 class="text-2xl font-semibold mb-3 text-indigo-700">Leitura por Grafemas</h3>
+                        <p class="text-stone-600">Para leitores experientes, significa reconhecer palavras e grupos de palavras como "desenhos" ou unidades visuais completas. O cérebro aprende a identificar esses padrões ortográficos instantaneamente, acelerando o acesso ao significado sem precisar decodificar letra por letra.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="desempenho" class="py-16 md:py-20 bg-stone-100 dark:bg-stone-800">
+        <section id="desempenho" class="bg-stone-100 py-16 md:py-20">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-50">Velocidade vs. Compreensão</h2>
-                    <p class="mt-4 text-lg text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">A leitura dinâmica não é uma corrida sem rumo. O gráfico abaixo ilustra a relação entre a velocidade de leitura (Palavras por Minuto - PPM) e a compreensão média para diferentes tipos de leitores. O objetivo é aumentar a velocidade de forma sustentável, mantendo a compreensão em níveis elevados. Passe o mouse sobre as barras para ver os detalhes.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900">Velocidade vs. Compreensão</h2>
+                    <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">A leitura dinâmica não é uma corrida sem rumo. O gráfico abaixo ilustra a relação entre a velocidade de leitura (Palavras por Minuto - PPM) e a compreensão média para diferentes tipos de leitores. O objetivo é aumentar a velocidade de forma sustentável, mantendo a compreensão em níveis elevados. Passe o mouse sobre as barras para ver os detalhes.</p>
                 </div>
-                <div class="bg-white p-4 sm:p-8 rounded-xl shadow-lg border border-stone-200 dark:bg-stone-700 dark:border-stone-600">
+                <div class="bg-white p-4 sm:p-8 rounded-xl shadow-lg border border-stone-200">
                     <div class="chart-container">
                         <canvas id="speedChart"></canvas>
                     </div>
@@ -249,43 +159,43 @@
         <section id="desafios" class="py-16 md:py-20">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-50">Desafios Comuns e Como Superá-los</h2>
-                     <p class="mt-4 text-lg text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">A jornada para se tornar um leitor dinâmico envolve desaprender velhos hábitos. Esta seção aborda os obstáculos mais comuns que limitam sua velocidade de leitura. Clique em cada desafio para descobrir estratégias eficazes para superá-lo e liberar seu potencial de leitura.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900">Desafios Comuns e Como Superá-los</h2>
+                     <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">A jornada para se tornar um leitor dinâmico envolve desaprender velhos hábitos. Esta seção aborda os obstáculos mais comuns que limitam sua velocidade de leitura. Clique em cada desafio para descobrir estratégias eficazes para superá-lo e liberar seu potencial de leitura.</p>
                 </div>
                 <div id="accordion-container" class="max-w-3xl mx-auto space-y-4">
-                    <div class="accordion-item bg-white border border-stone-200 rounded-lg overflow-hidden dark:bg-stone-700 dark:border-stone-600">
-                        <button class="accordion-header w-full text-left p-5 font-semibold text-lg flex justify-between items-center hover:bg-stone-50 transition dark:hover:bg-stone-600 dark:text-stone-200">
+                    <div class="accordion-item bg-white border border-stone-200 rounded-lg overflow-hidden">
+                        <button class="accordion-header w-full text-left p-5 font-semibold text-lg flex justify-between items-center hover:bg-stone-50 transition">
                             Subvocalização (A "Voz Mental")
                             <span class="transform transition-transform duration-300">▼</span>
                         </button>
                         <div class="accordion-content">
-                            <div class="p-5 pt-0 text-stone-600 dark:text-stone-300">
+                            <div class="p-5 pt-0 text-stone-600">
                                 <p><strong>O Desafio:</strong> Ler "ouvindo" cada palavra em sua mente limita sua velocidade à velocidade da fala.</p>
-                                <p class="mt-2"><strong>A Solução:</strong> O objetivo não é eliminar, mas controlar. Pratique ler mais rápido do que sua voz consegue acompanhar, ou ocupe-a contando mentalmente de 1 a 9 enquanto lê. Isso força o cérebro a confiar no processamento visual.</p>
+                                <p><strong>A Solução:</strong> O objetivo não é eliminar, mas controlar. Pratique ler mais rápido do que sua voz consegue acompanhar, ou ocupe-a contando mentalmente de 1 a 9 enquanto lê. Isso força o cérebro a confiar no processamento visual.</p>
                             </div>
                         </div>
                     </div>
-                     <div class="accordion-item bg-white border border-stone-200 rounded-lg overflow-hidden dark:bg-stone-700 dark:border-stone-600">
-                        <button class="accordion-header w-full text-left p-5 font-semibold text-lg flex justify-between items-center hover:bg-stone-50 transition dark:hover:bg-stone-600 dark:text-stone-200">
+                     <div class="accordion-item bg-white border border-stone-200 rounded-lg overflow-hidden">
+                        <button class="accordion-header w-full text-left p-5 font-semibold text-lg flex justify-between items-center hover:bg-stone-50 transition">
                             Regressão (Releitura)
                              <span class="transform transition-transform duration-300">▼</span>
                         </button>
                         <div class="accordion-content">
-                             <div class="p-5 pt-0 text-stone-600 dark:text-stone-300">
+                             <div class="p-5 pt-0 text-stone-600">
                                 <p><strong>O Desafio:</strong> Voltar constantemente para reler palavras ou frases que você acha que não entendeu. Isso quebra o ritmo e a confiança.</p>
-                                <p class="mt-2"><strong>A Solução:</strong> Use um guia visual (dedo ou caneta) para manter um movimento constante para a frente. Confie que seu cérebro captou a informação na primeira passagem. A compreensão geral do contexto muitas vezes esclarece pontos de dúvida sem a necessidade de releitura.</p>
+                                <p><strong>A Solução:</strong> Use um guia visual (dedo ou caneta) para manter um movimento constante para a frente. Confie que seu cérebro captou a informação na primeira passagem. A compreensão geral do contexto muitas vezes esclarece pontos de dúvida sem a necessidade de releitura.</p>
                              </div>
                         </div>
                     </div>
-                    <div class="accordion-item bg-white border border-stone-200 rounded-lg overflow-hidden dark:bg-stone-700 dark:border-stone-600">
-                        <button class="accordion-header w-full text-left p-5 font-semibold text-lg flex justify-between items-center hover:bg-stone-50 transition dark:hover:bg-stone-600 dark:text-stone-200">
+                    <div class="accordion-item bg-white border border-stone-200 rounded-lg overflow-hidden">
+                        <button class="accordion-header w-full text-left p-5 font-semibold text-lg flex justify-between items-center hover:bg-stone-50 transition">
                             Leitura Palavra por Palavra
                              <span class="transform transition-transform duration-300">▼</span>
                         </button>
                         <div class="accordion-content">
-                             <div class="p-5 pt-0 text-stone-600 dark:text-stone-300">
+                             <div class="p-5 pt-0 text-stone-600">
                                 <p><strong>O Desafio:</strong> Focar em cada palavra individualmente, em vez de captar ideias e frases completas.</p>
-                                <p class="mt-2"><strong>A Solução:</strong> Treine seus olhos para ver "blocos" de 2-3 palavras por vez. Em vez de focar no início da linha, fixe o olhar um pouco mais para dentro e tente absorver o grupo de palavras. Com o tempo, seu campo de visão útil se expandirá.</p>
+                                <p><strong>A Solução:</strong> Treine seus olhos para ver "blocos" de 2-3 palavras por vez. Em vez de focar no início da linha, fixe o olhar um pouco mais para dentro e tente absorver o grupo de palavras. Com o tempo, seu campo de visão útil se expandirá.</p>
                              </div>
                         </div>
                     </div>
@@ -293,39 +203,39 @@
             </div>
         </section>
 
-        <section id="pratica" class="py-16 md:py-20 bg-stone-100 dark:bg-stone-800">
+        <section id="pratica" class="bg-stone-100 py-16 md:py-20">
             <div class="container mx-auto px-4">
                  <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-50">Colocando em Prática</h2>
-                     <p class="mt-4 text-lg text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">A teoria é o ponto de partida; a prática leva à maestria. Esta seção interativa oferece um guia com as técnicas essenciais para desenvolver suas habilidades de leitura dinâmica. Navegue pelas abas para explorar cada método, desde a preparação inicial até as estratégias de leitura ativa que garantem a retenção do conhecimento.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900">Colocando em Prática</h2>
+                     <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">A teoria é o ponto de partida; a prática leva à maestria. Esta seção interativa oferece um guia com as técnicas essenciais para desenvolver suas habilidades de leitura dinâmica. Navegue pelas abas para explorar cada método, desde a preparação inicial até as estratégias de leitura ativa que garantem a retenção do conhecimento.</p>
                 </div>
                 <div class="max-w-4xl mx-auto">
-                    <div class="mb-6 flex flex-wrap justify-center border-b border-stone-300 dark:border-stone-600">
-                        <button class="tab-button px-4 py-2 text-stone-600 dark:text-stone-300 font-medium active" data-tab="preparacao">Preparação</button>
-                        <button class="tab-button px-4 py-2 text-stone-600 dark:text-stone-300 font-medium" data-tab="movimento">Movimento Ocular</button>
-                        <button class="tab-button px-4 py-2 text-stone-600 dark:text-stone-300 font-medium" data-tab="visao">Campo Visual</button>
-                        <button class="tab-button px-4 py-2 text-stone-600 dark:text-stone-300 font-medium" data-tab="ativa">Leitura Ativa</button>
+                    <div class="mb-6 flex flex-wrap justify-center border-b border-stone-300">
+                        <button class="tab-button px-4 py-2 text-stone-600 font-medium active" data-tab="preparacao">Preparação</button>
+                        <button class="tab-button px-4 py-2 text-stone-600 font-medium" data-tab="movimento">Movimento Ocular</button>
+                        <button class="tab-button px-4 py-2 text-stone-600 font-medium" data-tab="visao">Campo Visual</button>
+                        <button class="tab-button px-4 py-2 text-stone-600 font-medium" data-tab="ativa">Leitura Ativa</button>
                     </div>
-                    <div id="tab-content" class="bg-white p-8 rounded-lg shadow-md dark:bg-stone-700">
+                    <div id="tab-content" class="bg-white p-8 rounded-lg shadow-md">
                         <div class="tab-pane active" id="preparacao">
-                            <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400">1. Preparação Essencial</h3>
-                            <p class="text-stone-600 dark:text-stone-300 mb-2"><strong>Ambiente Ideal:</strong> Encontre um local silencioso e livre de distrações para maximizar a concentração.</p>
-                            <p class="text-stone-600 dark:text-stone-300"><strong>Pré-leitura (Skimming):</strong> Antes de começar, faça uma varredura de 1-2 minutos no texto. Leia títulos, subtítulos, introdução e conclusão. Isso cria um "mapa mental" e prepara seu cérebro para o conteúdo.</p>
+                            <h3 class="text-2xl font-semibold mb-4 text-indigo-700">1. Preparação Essencial</h3>
+                            <p class="text-stone-600 mb-2"><strong>Ambiente Ideal:</strong> Encontre um local silencioso e livre de distrações para maximizar a concentração.</p>
+                            <p class="text-stone-600"><strong>Pré-leitura (Skimming):</strong> Antes de começar, faça uma varredura de 1-2 minutos no texto. Leia títulos, subtítulos, introdução e conclusão. Isso cria um "mapa mental" e prepara seu cérebro para o conteúdo.</p>
                         </div>
                         <div class="tab-pane hidden" id="movimento">
-                            <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400">2. Dominando o Movimento Ocular</h3>
-                            <p class="text-stone-600 dark:text-stone-300 mb-2"><strong>Leitura em Blocos (Chunking):</strong> Treine para ver grupos de 2-4 palavras de uma só vez, em vez de focar em cada uma. Isso reduz drasticamente o número de paradas que seus olhos fazem.</p>
-                            <p class="text-stone-600 dark:text-stone-300"><strong>Uso de Guia Visual (Pacer):</strong> Use o dedo ou uma caneta para guiar seus olhos ao longo do texto. Mantenha um ritmo constante e ligeiramente mais rápido que o confortável. Isso disciplina o movimento ocular e evita a releitura.</p>
+                            <h3 class="text-2xl font-semibold mb-4 text-indigo-700">2. Dominando o Movimento Ocular</h3>
+                            <p class="text-stone-600 mb-2"><strong>Leitura em Blocos (Chunking):</strong> Treine para ver grupos de 2-4 palavras de uma só vez, em vez de focar em cada uma. Isso reduz drasticamente o número de paradas que seus olhos fazem.</p>
+                            <p class="text-stone-600"><strong>Uso de Guia Visual (Pacer):</strong> Use o dedo ou uma caneta para guiar seus olhos ao longo do texto. Mantenha um ritmo constante e ligeiramente mais rápido que o confortável. Isso disciplina o movimento ocular e evita a releitura.</p>
                         </div>
                         <div class="tab-pane hidden" id="visao">
-                            <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400">3. Expandindo o Campo Visual</h3>
-                            <p class="text-stone-600 dark:text-stone-300">Seus olhos podem ver mais do que você pensa. Em vez de começar a ler na primeira palavra da linha e terminar na última, tente começar na segunda palavra e terminar na penúltima. Sua visão periférica capturará as extremidades, economizando tempo precioso em cada linha.</p>
+                            <h3 class="text-2xl font-semibold mb-4 text-indigo-700">3. Expandindo o Campo Visual</h3>
+                            <p class="text-stone-600">Seus olhos podem ver mais do que você pensa. Em vez de começar a ler na primeira palavra da linha e terminar na última, tente começar na segunda palavra e terminar na penúltima. Sua visão periférica capturará as extremidades, economizando tempo precioso em cada linha.</p>
                         </div>
                         <div class="tab-pane hidden" id="ativa">
-                            <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400">4. Leitura Ativa para Compreensão</h3>
-                            <p class="text-stone-600 dark:text-stone-300 mb-2"><strong>Questionar:</strong> Pergunte-se constantemente qual é o ponto principal do autor.</p>
-                            <p class="text-stone-600 dark:text-stone-300 mb-2"><strong>Resumir:</strong> Ao final de uma seção, pause e tente resumir mentalmente ou em voz baixa o que acabou de ler.</p>
-                            <p class="text-stone-600 dark:text-stone-300"><strong>Anotar:</strong> Anote palavras-chave e ideias principais. O ato físico de escrever ajuda a consolidar a informação na memória.</p>
+                            <h3 class="text-2xl font-semibold mb-4 text-indigo-700">4. Leitura Ativa para Compreensão</h3>
+                            <p class="text-stone-600 mb-2"><strong>Questionar:</strong> Pergunte-se constantemente qual é o ponto principal do autor.</p>
+                            <p class="text-stone-600 mb-2"><strong>Resumir:</strong> Ao final de uma seção, pause e tente resumir mentalmente ou em voz baixa o que acabou de ler.</p>
+                            <p class="text-stone-600"><strong>Anotar:</strong> Anote palavras-chave e ideias principais. O ato físico de escrever ajuda a consolidar a informação na memória.</p>
                         </div>
                     </div>
                 </div>
@@ -335,35 +245,35 @@
         <section id="recursos" class="py-16 md:py-20">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-50">Ferramentas e Recursos</h2>
-                     <p class="mt-4 text-lg text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">Acelere seu aprendizado com as ferramentas certas. Esta seção reúne uma seleção de aplicativos, extensões de navegador, cursos e livros recomendados no relatório. Explore estes recursos para praticar exercícios direcionados, receber treinamento especializado e aprofundar seu conhecimento sobre leitura dinâmica.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-stone-900">Ferramentas e Recursos</h2>
+                     <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Acelere seu aprendizado com as ferramentas certas. Esta seção reúne uma seleção de aplicativos, extensões de navegador, cursos e livros recomendados no relatório. Explore estes recursos para praticar exercícios direcionados, receber treinamento especializado e aprofundar seu conhecimento sobre leitura dinâmica.</p>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-lg hover:-translate-y-1 transition-all dark:bg-stone-700 dark:border-stone-600">
-                        <h3 class="text-xl font-semibold mb-2 text-indigo-600 dark:text-indigo-400">Aplicativos</h3>
-                        <p class="text-stone-600 dark:text-stone-300 text-sm">Pratique com apps como "Leitura rápida" e Readlax para exercícios de visão periférica e ritmo.</p>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="text-xl font-semibold mb-2 text-indigo-600">Aplicativos</h3>
+                        <p class="text-stone-600 text-sm">Pratique com apps como "Leitura rápida" e Readlax para exercícios de visão periférica e ritmo.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-lg hover:-translate-y-1 transition-all dark:bg-stone-700 dark:border-stone-600">
-                        <h3 class="text-xl font-semibold mb-2 text-indigo-600 dark:text-indigo-400">Extensões</h3>
-                        <p class="text-stone-600 dark:text-stone-300 text-sm">Use extensões como Sprint (RSVP) e Sentence Segmenter no seu navegador para treinar no dia a dia.</p>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="text-xl font-semibold mb-2 text-indigo-600">Extensões</h3>
+                        <p class="text-stone-600 text-sm">Use extensões como Sprint (RSVP) e Sentence Segmenter no seu navegador para treinar no dia a dia.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-lg hover:-translate-y-1 transition-all dark:bg-stone-700 dark:border-stone-600">
-                        <h3 class="text-xl font-semibold mb-2 text-indigo-600 dark:text-indigo-400">Cursos Online</h3>
-                        <p class="text-stone-600 dark:text-stone-300 text-sm">Plataformas como Udemy e Superead.com oferecem cursos estruturados para todos os níveis.</p>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="text-xl font-semibold mb-2 text-indigo-600">Cursos Online</h3>
+                        <p class="text-stone-600 text-sm">Plataformas como Udemy e Superead.com oferecem cursos estruturados para todos os níveis.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-lg hover:-translate-y-1 transition-all dark:bg-stone-700 dark:border-stone-600">
-                        <h3 class="text-xl font-semibold mb-2 text-indigo-600 dark:text-indigo-400">Livros</h3>
-                        <p class="text-stone-600 dark:text-stone-300 text-sm">Aprofunde-se com clássicos de Tony Buzan, Peter Kump e Ron Cole sobre o tema.</p>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="text-xl font-semibold mb-2 text-indigo-600">Livros</h3>
+                        <p class="text-stone-600 text-sm">Aprofunde-se com clássicos de Tony Buzan, Peter Kump e Ron Cole sobre o tema.</p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-stone-800 text-stone-300 py-8 dark:bg-stone-900 dark:text-stone-400">
+    <footer class="bg-stone-800 text-stone-300 py-8">
         <div class="container mx-auto px-4 text-center">
             <p>&copy; 2025 Guia Interativo de Leitura Dinâmica. Todos os direitos reservados.</p>
-            <p class="text-sm text-stone-400 dark:text-stone-500 mt-2">Criado para facilitar a exploração do conhecimento sobre leitura eficiente.</p>
+            <p class="text-sm text-stone-400 mt-2">Criado para facilitar a exploração do conhecimento sobre leitura eficiente.</p>
         </div>
     </footer>
 
@@ -408,30 +318,7 @@
 
             let speedChart; // Declare chart variable globally
 
-            function updateChartColors() {
-                const isDarkMode = document.body.classList.contains('dark');
-                const textColor = isDarkMode ? '#e2e8f0' : '#4a5568'; // gray-200 or gray-700
-                const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-
-                if (speedChart) { // Ensure speedChart is initialized before accessing its properties
-                    speedChart.options.scales.y.ticks.color = textColor;
-                    speedChart.options.scales.y.grid.color = gridColor;
-                    speedChart.options.scales.y.title.color = textColor;
-
-                    speedChart.options.scales.y1.ticks.color = textColor;
-                    speedChart.options.scales.y1.grid.color = gridColor;
-                    speedChart.options.scales.y1.title.color = textColor;
-
-                    speedChart.options.plugins.legend.labels.color = textColor;
-                    speedChart.options.plugins.tooltip.titleColor = textColor;
-                    speedChart.options.plugins.tooltip.bodyColor = textColor;
-                    speedChart.options.plugins.tooltip.backgroundColor = isDarkMode ? 'rgba(45, 55, 72, 0.9)' : 'rgba(255, 255, 255, 0.9)';
-                    speedChart.options.plugins.tooltip.borderColor = isDarkMode ? '#4a5568' : '#e2e8f0';
-
-                    speedChart.update();
-                }
-            }
-
+            // Chart configuration
             const chartConfig = {
                 type: 'bar',
                 data: chartData,
@@ -510,10 +397,34 @@
                     }
                 }
             };
-            
+
             const speedChartCtx = document.getElementById('speedChart').getContext('2d');
             speedChart = new Chart(speedChartCtx, chartConfig); // Assign to global variable
 
+            function updateChartColors() {
+                const isDarkMode = document.body.classList.contains('dark');
+                const textColor = isDarkMode ? '#e2e8f0' : '#4a5563'; // gray-200 or stone-600
+                const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+                if (speedChart) { // Ensure speedChart is initialized before accessing its properties
+                    speedChart.options.scales.y.ticks.color = textColor;
+                    speedChart.options.scales.y.grid.color = gridColor;
+                    speedChart.options.scales.y.title.color = textColor;
+
+                    speedChart.options.scales.y1.ticks.color = textColor;
+                    speedChart.options.scales.y1.grid.color = gridColor;
+                    speedChart.options.scales.y1.title.color = textColor;
+
+                    speedChart.options.plugins.legend.labels.color = textColor;
+                    speedChart.options.plugins.tooltip.titleColor = textColor;
+                    speedChart.options.plugins.tooltip.bodyColor = textColor;
+                    speedChart.options.plugins.tooltip.backgroundColor = isDarkMode ? 'rgba(45, 55, 72, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+                    speedChart.options.plugins.tooltip.borderColor = isDarkMode ? '#4a5568' : '#e2e8f0';
+
+                    speedChart.update();
+                }
+            }
+            
             // Dark mode toggle logic (moved after chart initialization)
             const themeToggle = document.getElementById('theme-toggle');
             const sunIcon = document.getElementById('sun-icon');
